@@ -13,6 +13,11 @@ class Profile extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function followers()
+    {
+        return $this->belongsToMany('App\user');
+    }
+
     public function getImage()
     {
         if($this->image)
@@ -20,10 +25,8 @@ class Profile extends Model
             $imagePath = $this->image;
         }
         else{
-            $imagePath = 'avatar/avatar.png';
+            $imagePath ='/storage/'.'avatar/avatar.png';
         }
-
-        dd($imagePath);
 
         return '/storage/'.$imagePath;
     }

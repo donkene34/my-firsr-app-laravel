@@ -30,6 +30,10 @@ Route::get('/profiles/{username}/edit','ProfileController@edit')->name('profiles
 Route::patch('/profiles/{username}','ProfileController@update')->name('profiles.update');
 
 // routes posts
+Route::get('/posts','PostController@index')->name('posts.index');
 Route::get('/posts/create', 'PostController@create')->name('posts.create');
 Route::post('/posts', 'PostController@store')->name('posts.store');
 Route::get('/posts/{post}','PostController@show')->name('posts.show');
+
+// abonnement
+Route::post('/follows/{profile}','FollowController@store')->name('follows.store');

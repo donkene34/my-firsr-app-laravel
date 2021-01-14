@@ -42,9 +42,9 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::created(function($username){
-                $username->profile::create([
-                'title' => 'Profil de'. $username->username
+        static::created(function($user){
+                $user->profile()->create([
+                'title' => 'Profil de '.$user->username
             ]);
         });
     }
@@ -57,6 +57,11 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne('App\Profile');
+    }
+
+    public function following()
+    {
+        return $this->belongsToMany('App\profile');
     }
 
     public function posts()

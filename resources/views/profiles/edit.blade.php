@@ -57,7 +57,7 @@
                         <div class="form-group row "></div>
                             <div class="btn col-12 btn-primary btn-sm float-left bg-transparent ">
                                 <label for="validatedCustomFile" class="custume-file-label">Choisir une image</label>
-                              <input id="image" type="file" name="image"class="custum-file-input @error('image') is-invalid @enderror" autocomplete="caption" autofocus>
+                              <input id="image" type="file" name="img"class="custum-file-input @error('image') is-invalid @enderror" autocomplete="caption" autofocus>
                             </div>
 
                             @error('image')

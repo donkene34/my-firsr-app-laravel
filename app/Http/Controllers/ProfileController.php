@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-use Intervention\Image\Facades\image;
-
-use Illuminate\Http\Request;
-
 use App\User;
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\image;
+use Illuminate\Support\Facades\Cache;
+
 
 class ProfileController extends Controller
 {
@@ -17,10 +16,22 @@ class ProfileController extends Controller
         $this->middleware('auth');
     }
 
-
     public function show(User $username)
     {
-        return view('profiles.show',compact('username'));
+
+        $postsCount = Cache::remember('posts.count'. $username->id,now()->addSeconds(30) ,function () use ($username) {
+            return $username->posts->count();
+        });
+
+        $followersCount = Cache::remember('followers.count'. $username->id,now()->addSeconds(30), function () use ($username) {
+            return $username->profile->followers->count();
+        });
+
+        $followingCount = Cache::remember('following.count'. $username->id,now()->addSeconds(30), function () use ($username) {
+            return  $username->following->count();
+        });
+
+        return view('profiles.show',compact('username','postsCount','followersCount','followingCount'));
     }
 
 
@@ -44,16 +55,17 @@ class ProfileController extends Controller
         ]);
 
        if (request('image')) {
-            $imagePath = request('image')->store('avatars','public');
+            $imagePath = request('image')->store('public/avatars');
+            $image = Image::make(public_path('/storage/{$imagePath}'))->fit(800,800);
             $image->save();
 
-            auth()->$username->profile->update(array_merge(
+            auth()->user()->profile()->update(array_merge(
                 $data,
                 ['image' => $image]
             ));
        }
 
-        auth()->$username->profile->update($data);
+        auth()->user()->profile()->update($data);
 
         return  redirect()->route('profiles.show', compact('username'));
     }
