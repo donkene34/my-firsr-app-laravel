@@ -13,10 +13,10 @@
                 </div>
             </div>
         @endforeach
-        <div class="col-12 mt-5">
+        {{-- <div class="col-12 mt-5">
             <div class="row d-flex justify-content-center">
                 {{ $posts->links() }}
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

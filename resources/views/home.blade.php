@@ -1,23 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
+    <div class="container">
+        @foreach ($posts as $post)
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <a href="{{ route('posts.show', ['post' => $post->id]) }}"><img src="{{ asset('storage').'/'.$post->image }}" height="300" class="w-100 mb-4"></a>
+                    <hr>
+                    <div class="mb-5">
+                        posté par <strong> {{ $post->user->username }} </strong> le {{ $post->created_at }}
+                    </div>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
-</div>
 @endsection
